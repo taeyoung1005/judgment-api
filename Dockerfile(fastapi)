@@ -21,12 +21,8 @@ COPY ./data_info.csv .
 
 COPY ./main.py .
 
+COPY ./requirements.txt .
+
 RUN pip install --upgrade pip
 
-RUN pip install "fastapi[all]"
-
-RUN pip install "uvicorn[standard]"
-
-RUN pip install pandas
-
-RUN pip install elasticsearch
+RUN pip install -r requirements.txt
