@@ -1,6 +1,7 @@
 import os
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 import pandas as pd
 from elasticsearch import Elasticsearch
 
@@ -13,6 +14,10 @@ es = Elasticsearch(
 app = FastAPI()
 
 data_info = pd.read_csv("data_info.csv", encoding="cp949")
+
+
+class AccidentTypeRequest(BaseModel):
+    accident_type: int
 
 
 def search_query(search_words: list):
@@ -39,7 +44,8 @@ def search_query(search_words: list):
 
 
 @app.post("/judgment")
-async def get_judgment(accident_type: int):
+async def get_judgment(request: AccidentTypeRequest):
+    accident_type = request.accident_type
     if accident_type < 0 or accident_type > 434:
         raise HTTPException(
             status_code=400, detail="사고유형은 0 ~ 434 사이의 정수여야 합니다."

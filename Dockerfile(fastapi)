@@ -19,10 +19,8 @@ WORKDIR /workspace
 
 COPY ./data_info.csv .
 
-COPY ./main.py .
-
-COPY ./requirements.txt .
-
 RUN pip install --upgrade pip
 
-RUN pip install -r requirements.txt
+RUN pip install pandas elasticsearch fastapi[all] uvicorn[standard]
+
+COPY ./main.py .
